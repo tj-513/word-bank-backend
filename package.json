@@ -1,0 +1,21 @@
+{
+  "name": "word-bank-backend",
+  "version": "1.0.0",
+  "description": "Backend for word bank app",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "word",
+    "app",
+    "mobile",
+    "app"
+  ],
+  "author": "tj513",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
