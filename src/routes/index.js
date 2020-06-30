@@ -4,7 +4,7 @@ const wordRoutes = require('./words');
 
 const router = express.Router();
 
-router.get('/words', wordRoutes.getWords );
+router.get('/words/all', wordRoutes.getWords );
 router.post('/words', wordRoutes.addWord);
 router.put('/words', wordRoutes.updateWord);
 router.delete('/words', wordRoutes.deleteWord);

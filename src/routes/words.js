@@ -1,26 +1,26 @@
 const { wordsService } = require('../services');
 
-const addWord = (req, res) => {
+const addWord = async(req, res) => {
   console.log(req.body);
-  const response = wordsService.addWord('word', 'def', 'sample');
+  const response = await wordsService.addWord('word', 'def', 'sample');
   res.status(201).send({ response });
 };
 
-const updateWord = (req, res) => {
+const updateWord = async (req, res) => {
   console.log(req.body);
-  const response = wordsService.updateWord('aaa', 'word', 'defin', 'sample');
+  const response = await wordsService.updateWord('aaa', 'word', 'defin', 'sample');
   res.status(200).send({ response });
 };
 
-const getWords = (req, res) => {
+const getWords = async (req, res) => {
   console.log(req.body);
-  const response = wordsService.getWords();
+  const response = await wordsService.getWords();
   res.status(200).send({ response });
 };
 
-const deleteWord = (req, res) => {
+const deleteWord = async (req, res) => {
   console.log(req.body);
-  const response = wordsService.deleteWord('aa');
+  const response = await wordsService.deleteWord('aa');
   res.status(200).send({ response });
 };
 
