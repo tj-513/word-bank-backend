@@ -3,7 +3,12 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'git clone git@github.com:tj-513/word-bank-backend.git'
+        sh 'yarn'
+      }
+    }
+    stage('execute'){
+      steps {
+        sh 'yarn start'
       }
     }
 
