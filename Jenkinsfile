@@ -17,9 +17,9 @@ pipeline {
       }
 
       steps {
-        
-        sh 'pm2 delete -s word-bank || :'
-        sh 'pm2 start src/index.js --name=word-bank'
+
+        sh 'fuser -k 3000/tcp'
+        sh 'yarn start &'
       }
     }
   }
