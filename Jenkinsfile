@@ -11,10 +11,14 @@ pipeline {
         sh 'yarn'
       }
     }
-    stage('execute'){
+    stage('deliver'){
+      when{
+        branch 'develop'
+      }
+
       steps {
-        sh 'yarn start &'
-        sh 'sleep 1'
+        sh 'pm2 delete -s word-bank || :'
+        sh 'pm2 start src/index.js --name=word-bank'
       }
     }
   }
