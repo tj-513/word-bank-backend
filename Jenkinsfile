@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:10.15.3-slim'
-      args '-p 3000:3000'
-    }
-  }
+  agent any
   stages {
     stage('build') {
       steps {
@@ -17,9 +12,9 @@ pipeline {
       }
 
       steps {
-
-        sh 'fuser -k 3000/tcp'
-        sh 'yarn start &'
+        
+        sh 'pm2 delete -s word-bank || :'
+        sh 'pm2 start src/index.js --name=word-bank'
       }
     }
   }
