@@ -13,7 +13,8 @@ pipeline {
     }
     stage('execute'){
       steps {
-        sh 'yarn start'
+        sh 'yarn start &'
+        sh 'sleep 1'
       }
     }
   }
