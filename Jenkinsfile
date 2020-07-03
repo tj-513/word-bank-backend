@@ -1,6 +1,10 @@
 pipeline {
   agent any
-  tools {node "NodeJs" }
+  node {
+    env.NODEJS_HOME = "${tool 'Node 6.x'}"
+    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+    sh 'npm --version'
+  }
   stages {
     stage('build') {
       steps {
