@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent {label "aws"}
 
   tools {nodejs "NodeJS" }
 
