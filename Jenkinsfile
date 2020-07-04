@@ -1,22 +1,13 @@
 pipeline {
-  agent {label "aws"}
-
-  tools {nodejs "NodeJS" }
+  agent any
 
   stages {
-    stage('build') {
+    stage('build and deploy') {
       steps {
-        sh 'yarn'
-      }
-    }
-    stage('deliver'){
-      when{
-        branch 'develop'
-      }
-
-      steps {
-        sh 'pm2 delete -s word-bank || :'
-        sh 'pm2 start src/index.js --name=word-bank'
+        script{
+          sh './infra/build.sh'
+          deleteDir()
+        }
       }
     }
   }

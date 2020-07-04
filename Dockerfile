@@ -4,9 +4,13 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN npm install -g pm2
+RUN npm install -g pm2 yarn
 
 COPY package*.json ./
-RUN npm install
+RUN yarn
 
 COPY . .
+
+CMD [ "pm2", "src/index.js"]
+
+EXPOSE 3000
