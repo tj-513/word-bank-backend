@@ -11,6 +11,6 @@ RUN yarn
 
 COPY . .
 
-CMD [ "pm2", "src/index.js"]
+CMD [ "pm2-runtime", "src/index.js"]
 
 EXPOSE 3000
