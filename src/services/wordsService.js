@@ -27,10 +27,10 @@ const addWord = async (word, definition, sampleSentence) => {
   }
 };
 
-const getWords = async () => {
+const getAllWords = async () => {
   console.log(`Attempting to fetch all words`);
   try {
-    const { words } = await mongodbClient.getWords();
+    const { words } = await mongodbClient.getAllWords();
     if (!words) {
       return { error: true, message: 'error occurred' };
     }
@@ -84,7 +84,7 @@ const deleteWord = async (_id) => {
 
 module.exports = {
   addWord,
-  getWords,
+  getAllWords,
   updateWord,
   deleteWord,
 };

@@ -13,8 +13,8 @@ const updateWord = async (req, res) => {
   res.status(200).send({ response });
 };
 
-const getWords = async (req, res) => {
-  const response = await wordsService.getWords();
+const getAllWords = async (req, res) => {
+  const response = await wordsService.getAllWords();
   res.status(200).send({ response });
 };
 
@@ -28,5 +28,6 @@ module.exports = {
   addWord,
   updateWord,
   getWords,
+  getAllWords,
   deleteWord,
 };
