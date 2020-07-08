@@ -82,9 +82,36 @@ const deleteWord = async (_id) => {
   }
 };
 
+const getWords = async ({ sortBy='dateCreated', sortOrder='desc', page=1, pageSize=10}) => {
+  console.log(
+    `Attempting to get words: ${{sortBy, sortOrder, page, pageSize}}`
+  );
+
+  const skip = (page - 1)* pageSize;
+  const limit = parseInt(pageSize);
+
+  try {
+    const { mongodbResponse } = await mongodbClient.getWords({sortBy, sortOrder, limit, skip});
+    if (!mongodbResponse) {
+      return { error: true, message: 'error occurred' };
+    }
+    console.log(`Fetch all words successful: ${JSON.stringify(mongodbResponse)}`);
+
+    const {words, total} = mongodbResponse[0];
+    const totalWords = total[0].count;
+
+
+    return { message: 'fetched successfully', data: words, page, pageSize, totalWords };
+  } catch (error) {
+    console.log(`Fetch all words failed: ${error}`);
+    return { error: true, message: 'error occurred' };
+  }
+};
+
 module.exports = {
   addWord,
   getAllWords,
   updateWord,
   deleteWord,
+  getWords,
 };

@@ -24,6 +24,13 @@ const deleteWord = async (req, res) => {
   res.status(200).send({ response });
 };
 
+const getWords = async (req, res) => {
+  const {sortBy, sortOrder, page, pageSize } = req.query;
+
+  const response = await wordsService.getWords({sortBy, sortOrder, page, pageSize});
+  res.status(200).send({ response });
+};
+
 module.exports = {
   addWord,
   updateWord,
