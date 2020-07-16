@@ -52,7 +52,9 @@ const getWordsForGame = async ({ count = 10 }) => {
 
     const questionsList = makeQuestionsList(words, randomDefinitions);
 
-    console.log(`Fetch questions for game successful: ${JSON.stringify(questionsList)}`);
+    console.log(
+      `Fetch questions for game successful: ${JSON.stringify(questionsList)}`
+    );
     return { message: 'fetched successfully', data: questionsList };
   } catch (error) {
     console.log(`Fetch words for game failed: ${error}`);
@@ -63,13 +65,13 @@ const getWordsForGame = async ({ count = 10 }) => {
 const makeQuestionsList = (words, definitions) => {
   const questions = [];
 
-  words.forEach(({_id, word, definition, sampleSentence }) => {
+  words.forEach(({ _id, word, definition, sampleSentence }) => {
     const question = {
       _id,
       word,
       options: new Array(definition),
       correct: definition,
-      sampleSentence
+      sampleSentence,
     };
     const wrongOptions = definitions
       .filter((d) => d.definition !== definition)
@@ -77,13 +79,57 @@ const makeQuestionsList = (words, definitions) => {
       .map((d) => d.definition);
 
     question.options = shuffle(question.options.concat(wrongOptions));
-    
+
     questions.push(question);
   });
 
   return questions;
 };
 
+const writeWordgameResult = async ({ gameResult }) => {
+  console.log(`attempting to write game result ${{ gameResult }}`);
+  const resultObj = {};
+
+  gameResult.forEach(({ _id, correct }) => {
+    resultObj[_id] = { correct };
+  });
+
+  try {
+    const matchingWords = await mongodbClient.getWordsInIdList(
+      Object.keys(resultObj)
+    );
+
+    const newStreakData = matchingWords.map((word) => {
+      const streak = resultObj[word._id].correct
+        ? Math.min(word.streak + 1, 3) // TODO: Use a const here
+        : 0;
+      return { _id: word._id, streak };
+    });
+
+    const mongodbResponse = await mongodbClient.writeWordGameResults(
+      newStreakData
+    );
+
+    if (mongodbResponse.result.ok) {
+      console.log('successfully updated results');
+      return { error: false, message: 'Successfully updated results' };
+    } else {
+      console.log(`error occurred while updating results ${resultObj}`);
+      return {
+        error: true,
+        message: 'An error occurred while writing result data',
+      };
+    }
+  } catch (e) {
+    console.log('an error occurred', JSON.stringify(e));
+    return {
+      error: true,
+      message: 'an error occurred while updating result data',
+    };
+  }
+};
+
 module.exports = {
   getWordsForGame,
+  writeWordgameResult,
 };

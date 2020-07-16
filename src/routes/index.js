@@ -13,6 +13,7 @@ router.put('/words', wordRoutes.updateWord);
 router.delete('/words/:id', wordRoutes.deleteWord);
 
 router.get('/wordGame/questions', wordGameRoutes.getWordsForGame);
+router.patch('/wordGame/results', wordGameRoutes.updateWordGameResult);
 
 router.get('/version', healthCheck.greetings);
 

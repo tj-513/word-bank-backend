@@ -7,6 +7,14 @@ const getWordsForGame = async (req, res) => {
   res.status(200).send({ response });
 };
 
+const updateWordGameResult = async (req, res) => {
+  // call service
+  const { gameResult } = req.body;
+  const response = await wordGameService.writeWordgameResult({gameResult})
+  res.status(200).send({ response });
+}
+
 module.exports = {
   getWordsForGame,
+  updateWordGameResult,
 };

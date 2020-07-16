@@ -14,6 +14,7 @@ const addWord = async (word, definition, sampleSentence) => {
       definition,
       sampleSentence,
       dateCreated: Date.now(),
+      streak:0,
     });
     if (!savedWord._id) {
       console.log(`Save word failed: Could not create`);
