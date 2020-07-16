@@ -12,7 +12,7 @@ router.post('/words', wordRoutes.addWord);
 router.put('/words', wordRoutes.updateWord);
 router.delete('/words/:id', wordRoutes.deleteWord);
 
-router.get('/wordGame/words', wordGameRoutes.getWordsForGame);
+router.get('/wordGame/questions', wordGameRoutes.getWordsForGame);
 
 router.get('/version', healthCheck.greetings);
 

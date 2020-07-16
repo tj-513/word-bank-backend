@@ -2,7 +2,13 @@
  *
  * @param {{streakMatcher:{lessthan,greaterThan, equalTo, includeUndefined}}, sampleSize} param0
  */
-const createMongodbWordAgregate = ({ streakMatcher, sampleSize, excludeIds }) => {
+const createMongodbWordAgregate = ({
+  streakMatcher,
+  sampleSize,
+  excludeIds,
+  includeFields,
+  excludeFields,
+}) => {
   const aggregate = [];
   if (streakMatcher) {
     const {
@@ -25,16 +31,24 @@ const createMongodbWordAgregate = ({ streakMatcher, sampleSize, excludeIds }) =>
       matcher = { $or: [{ streak: { $exists: false } }, matcher] };
     }
 
-    aggregate.push({$match:matcher});
+    aggregate.push({ $match: matcher });
   }
 
   if (sampleSize) {
-    aggregate.push({ $sample: {size: sampleSize} });
+    aggregate.push({ $sample: { size: sampleSize } });
   }
 
-  if(excludeIds){
-    const matcher = {$match: {_id: {$nin: [...excludeIds] } }};
+  if (excludeIds) {
+    const matcher = { $match: { _id: { $nin: [...excludeIds] } } };
     aggregate.unshift(matcher);
+  }
+
+  if(includeFields){
+    const project = { $project: {_id:0}};
+    includeFields.forEach(field=>{
+      project.$project[field] = 1;
+    });
+    aggregate.push(project);
   }
 
   return aggregate;
